@@ -16,17 +16,12 @@ import org.jboss.resteasy.annotations.providers.jackson.Formatted;
  * Interfaz que Especifica los metodos que deben ser implementados por El servicio CancionServiceImpl
  * @author CristianCamilo
  */
-public interface CancionService {
+public interface PlaylistServiceInterfaz {
     
     @GET
-    @Path("/getSongById/{idCancion}")
+    @Path("/getPlaylist")
     @Produces("application/json")
     @Formatted
-    public Response getSongById(@PathParam("idCancion") int idCancion);
-    
-    @GET
-    @Path("/getAllSongs")
-    @Produces("application/json")
-    @Formatted
-    public Response getAllSongs();
+    public Response getPlaylist();
+        
 }

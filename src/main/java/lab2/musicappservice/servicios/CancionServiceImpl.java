@@ -22,7 +22,7 @@ import org.jboss.resteasy.annotations.providers.jackson.Formatted;
  * @author CristianCamilo
  */
 @Path("/Canciones")
-public class CancionServiceImpl implements CancionService {
+public class CancionServiceImpl implements CancionServiceInterfaz {
     
     
     /**
@@ -72,7 +72,7 @@ public class CancionServiceImpl implements CancionService {
             
             Cancion cancion = new Cancion();
                 cancion.setIdCancion(i);
-                cancion.setTituloCancion("Menealo mami XD #"+i);
+                cancion.setTituloCancion("otra mami XD #"+i);
                 cancion.setAlbum("Album "+ 2005 + i);
             canciones.add(cancion);
         }       
