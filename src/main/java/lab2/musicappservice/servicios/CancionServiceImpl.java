@@ -13,7 +13,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import lab2.musicappservice.InicializadorRest;
-import lab2.musicappservice.modelo.Cancion;
+import lab2.musicappservice.modelo.dto.Cancion;
 import org.jboss.resteasy.annotations.providers.jackson.Formatted;
 
 /**

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package lab2.musicappservice.modelo;
+package lab2.musicappservice.modelo.dto;
 
 import java.io.Serializable;
 
