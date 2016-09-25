@@ -14,11 +14,12 @@ import java.sql.Date;
  * @author Santiago
  */
 public class PlayList {
-    int idRonda;
-    int idCancion;
-    int totalVotos;
-    boolean envotacion;
-    Date fecha;
+    private int idRonda;
+    //falta un objeto de la clase cancion apartir del id
+    private int idCancion;
+    private int totalVotos;
+    private boolean envotacion;
+    private Date fecha;
 
     public int getIdRonda() {
         return idRonda;
