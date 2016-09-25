@@ -19,7 +19,8 @@ import java.sql.SQLException;
 public class DataSource {
     
     private final String MYSQL_HOST = "localhost";
-    private final String MYSQL_PORT = "3306";
+    //private final String MYSQL_PORT = "3306";
+    private final String MYSQL_PORT = "3307";
     private final String MYSQL_USER = "root";
     private final String MYSQL_PASS = "";
     private final String DB_NAME = "musicappdb";

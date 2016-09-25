@@ -29,6 +29,12 @@ public interface VotoDao {
      * @throws ExceptionDao 
      */
     List<Voto> getVotos() throws ExceptionDao;
+    /**
+    * Elimina un voto de la base de datos
+    * @param voto
+    * @throws ExceptionDao 
+    */
+    void eliminarVoto(Voto voto) throws ExceptionDao;
     
     
 }

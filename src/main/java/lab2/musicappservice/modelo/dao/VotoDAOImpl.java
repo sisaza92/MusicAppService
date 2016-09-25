@@ -102,4 +102,41 @@ public class VotoDAOImpl implements VotoDao {
         return resultado;
     }
 
+    @Override
+    public void eliminarVoto(Voto voto) throws ExceptionDao {
+        Connection connection = null;
+        PreparedStatement ps = null;
+
+        try {
+            connection = DataSource.getInstancia().getConnection();
+            //meter en ps param codigo puede provocar sql injection
+            ps = connection.prepareStatement("DELETE FROM voto  WHERE idCancion=? AND idUsuario=?"
+                    + "AND fecha=? AND idRonda=?");
+            //esto evita el sqlinjection
+            ps.setInt(1, voto.getIdCancion());
+            ps.setString(2, voto.getIdUsuario());
+            ps.setDate(3, voto.getFecha());
+            ps.setInt(4, voto.getIdRonda());
+            ps.execute();
+            
+            // volver a enviarle otra sentencia sql y ejecutarla
+
+        } catch (SQLException e) {
+            // TODO: handle exception
+            throw new ExceptionDao(e);
+        } finally {
+            try {
+                if (ps != null) {
+                    ps.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                // TODO: handle exception
+                throw new ExceptionDao();
+            }
+        }
+    }
+    
 }
