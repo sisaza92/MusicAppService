@@ -15,7 +15,7 @@ import java.sql.Date;
  */
 public class PlayList {
     private int idRonda;
-    //falta un objeto de la clase cancion apartir del id
+    //falta un objeto de la clase cancion a partir del id
     private int idCancion;
     private int totalVotos;
     private boolean envotacion;
