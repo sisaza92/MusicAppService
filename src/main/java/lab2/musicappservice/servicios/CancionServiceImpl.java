@@ -5,16 +5,15 @@
  */
 package lab2.musicappservice.servicios;
 
-import java.util.ArrayList;
 import java.util.List;
-import javax.ws.rs.GET;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
-import lab2.musicappservice.InicializadorRest;
+import lab2.musicappservice.modelo.dao.CancionDAO;
+import lab2.musicappservice.modelo.dao.CancionDAOImpl;
 import lab2.musicappservice.modelo.dto.Cancion;
-import org.jboss.resteasy.annotations.providers.jackson.Formatted;
+import lab2.musicappservice.modelo.exception.ExceptionDao;
 
 /**
  * Clase que implementa los metodos que retornaran las canciones y que son 
@@ -24,6 +23,7 @@ import org.jboss.resteasy.annotations.providers.jackson.Formatted;
 @Path("/Canciones")
 public class CancionServiceImpl implements CancionService {
     
+    CancionDAO cancionDAO = null;
     
     /**
   * Retorna la cancion con identificador idCancion
@@ -32,8 +32,17 @@ public class CancionServiceImpl implements CancionService {
   * que será procesado por RESTEasy.
   */
     public Response getSongById(int idCancion) {
-    	Cancion cancion = getCancion(idCancion);
-        Response respuesta = Response.ok(cancion).build();
+        
+        Response respuesta = null;
+        try {
+            
+            cancionDAO = new CancionDAOImpl();
+            Cancion cancion = cancionDAO.getSong(idCancion);
+            respuesta = Response.ok(cancion).build();
+            
+        } catch (ExceptionDao ex) {
+            Logger.getLogger(CancionServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return respuesta;
     }
     
@@ -44,39 +53,16 @@ public class CancionServiceImpl implements CancionService {
      */
     public Response getAllSongs() {
     	
-        return Response.ok(listarAllCanciones()).build();
-    }
-    
-    /**
-     * Metodo Auxiliar que debe ser reemplazado por una invocacion al DAO
-     * @param idCancion
-     * @return 
-     */
-    private Cancion getCancion(int idCancion){
-        
-    	Cancion cancion = new Cancion();
-    	cancion.setIdCancion(idCancion);
-    	cancion.setTituloCancion("Menealo mami XD");
-    	cancion.setAlbum("Album 2005");
-        
-    	return cancion;
-    }
-    /**
-     * Metodo Auxiliar que debe ser reemplazado por una invocacion al DAO
-     * @return 
-     */
-    private List<Cancion> listarAllCanciones(){
-        
-        List<Cancion> canciones = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
+        Response respuesta = null;
+        try {
             
-            Cancion cancion = new Cancion();
-                cancion.setIdCancion(i);
-                cancion.setTituloCancion("Menealo mami XD #"+i);
-                cancion.setAlbum("Album "+ 2005 + i);
-            canciones.add(cancion);
-        }       
-     
-        return canciones;
+            cancionDAO = new CancionDAOImpl();
+            List<Cancion> canciones = cancionDAO.getAllSongs();
+            respuesta = Response.ok(canciones).build();
+            
+        } catch (ExceptionDao ex) {
+            Logger.getLogger(CancionServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return respuesta;
     }
 }
