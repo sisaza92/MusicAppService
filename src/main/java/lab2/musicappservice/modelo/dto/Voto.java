@@ -14,10 +14,10 @@ import java.sql.Date;
  */
 public class Voto {
 
-  int idCancion;
-  String idUsuario;
-  Date fecha;
-  int idRonda;
+  private int idCancion;
+  private String idUsuario;
+  private Date fecha;
+  private int idRonda;
 
     public Voto() {
     }
