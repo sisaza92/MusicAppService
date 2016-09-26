@@ -5,6 +5,8 @@
  */
 package lab2.musicappservice.modelo.dao;
 
+import java.sql.Date;
+import lab2.musicappservice.modelo.dto.Cancion;
 import lab2.musicappservice.modelo.exception.ExceptionDao;
 import lab2.musicappservice.modelo.dto.PlayList;
 import lab2.musicappservice.modelo.dto.Voto;
@@ -25,5 +27,18 @@ public interface PlayListDAO {
      */
     void agregarVotoPlayLIst(Voto voto) throws ExceptionDao;
     
+    int votacionCancion(int idRonda, int idCancion , Date fecha) throws ExceptionDao;
+    
+    /**
+     * retorna la ronda actual de la cancion para una fecha dada
+     * @param cancion
+     * @return
+     * @throws ExceptionDao 
+     */
+    int getIdRondaCancion(Cancion cancion,Date fecha) throws ExceptionDao;
+    
+    // crea una nueva cancion en el playList y asigna el idRonda que le corresponde en la fecha dada
+    // tambien habilita la votacion y al la misma cancion con idRonda pasado vuelve false en votacion
+    // void actualizarRondaCancion( Cancion Cancion, Date fecha) throws ExceptionDao;
     
 }
