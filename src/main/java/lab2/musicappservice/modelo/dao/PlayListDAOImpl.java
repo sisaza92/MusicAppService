@@ -145,10 +145,98 @@ public class PlayListDAOImpl implements PlayListDAO{
         
     }
 
+    // falta probar este metodo
     @Override
     public int getIdRondaCancion(Cancion cancion, Date fecha) throws ExceptionDao {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        
+        int idRonda;
+
+        try {
+            connection = DataSource.getInstancia().getConnection();
+            //meter en ps param codigo puede provocar sql injection
+            ps = connection.prepareStatement("Select idRonda FROM  playList WHERE"
+                    + " idCancion=? AND fecha=? AND envotacion=true ");
+            //esto evita el sqlinjection
+            ps.setInt(1,cancion.getIdCancion() );
+            ps.setDate(2,fecha);
+            
+            rs = ps.executeQuery();
+            rs.next();
+            idRonda = rs.getInt("idRonda");
+            
+        } catch (SQLException e) {
+            // TODO: handle exception
+            throw new ExceptionDao(e);
+        } finally {
+            try {
+                if (ps != null) {
+                    ps.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                // TODO: handle exception
+                throw new ExceptionDao();
+            }
+        }
+        return idRonda;
+        
+
     }
-    
+
+    // falta probar este metodo
+    @Override
+    public void actualizarRondaCancion(Cancion cancion, Date fecha) throws ExceptionDao {
+        Connection connection = null;
+        PreparedStatement ps = null;
+
+        try {
+            connection = DataSource.getInstancia().getConnection();
+            int idRonda = getIdRondaCancion(cancion, fecha);
+            //meter en ps param codigo puede provocar sql injection
+            ps = connection.prepareStatement("INSERT INTO playList  (idRonda,idCancion,totalVotos,envotacion,fecha) VALUES(?,?,?,?,?)");
+            //esto evita el sqlinjection
+            ps.setInt(1,idRonda + 1);
+            ps.setInt(2,cancion.getIdCancion());
+            ps.setInt(3,0);
+            ps.setBoolean(4,true);
+            ps.setDate(5, fecha);
+            
+            ps.execute();
+            
+            
+            ps = connection.prepareStatement("UPDATE playList SET playList.envotacion=false WHERE"
+                    + " idRonda=? AND idCancion=? AND envotacion=? AND fecha=? ");
+            //esto evita el sqlinjection
+            ps.setInt(1,idRonda);
+            ps.setInt(2, cancion.getIdCancion());
+            ps.setBoolean(3, true);
+            ps.setDate(4, fecha);
+            
+            ps.execute();
+           
+
+        } catch (SQLException e) {
+            // TODO: handle exception
+            throw new ExceptionDao(e);
+        } finally {
+            try {
+                if (ps != null) {
+                    ps.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                // TODO: handle exception
+                throw new ExceptionDao();
+            }
+        }
+        
+    }
     
 }

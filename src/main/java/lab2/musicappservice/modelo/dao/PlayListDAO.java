@@ -39,6 +39,6 @@ public interface PlayListDAO {
     
     // crea una nueva cancion en el playList y asigna el idRonda que le corresponde en la fecha dada
     // tambien habilita la votacion y al la misma cancion con idRonda pasado vuelve false en votacion
-    // void actualizarRondaCancion( Cancion Cancion, Date fecha) throws ExceptionDao;
+    void actualizarRondaCancion( Cancion cancion, Date fecha) throws ExceptionDao;
     
 }
