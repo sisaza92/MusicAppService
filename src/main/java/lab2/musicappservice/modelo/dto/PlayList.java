@@ -15,8 +15,7 @@ import java.sql.Date;
  */
 public class PlayList {
     private int idRonda;
-    //falta un objeto de la clase cancion a partir del id
-    private int idCancion;
+    private Cancion cancion;
     private int totalVotos;
     private boolean envotacion;
     private Date fecha;
@@ -33,12 +32,12 @@ public class PlayList {
         this.idRonda = idRonda;
     }
 
-    public int getIdCancion() {
-        return idCancion;
+    public Cancion getCancion() {
+        return cancion;
     }
 
-    public void setIdCancion(int idCancion) {
-        this.idCancion = idCancion;
+    public void setCancion(Cancion cancion) {
+        this.cancion = cancion;
     }
 
     public int getTotalVotos() {
@@ -67,7 +66,7 @@ public class PlayList {
 
     @Override
     public String toString() {
-        return "PlayList{" + "idRonda=" + idRonda + ", idCancion=" + idCancion + ", totalVotos=" + totalVotos + ", envotacion=" + envotacion + ", fecha=" + fecha + '}';
+        return "PlayList{" + "idRonda=" + idRonda + ", idCancion=" + cancion + ", totalVotos=" + totalVotos + ", envotacion=" + envotacion + ", fecha=" + fecha + '}';
     }
     
     

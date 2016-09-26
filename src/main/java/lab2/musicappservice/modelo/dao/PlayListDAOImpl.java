@@ -37,7 +37,7 @@ public class PlayListDAOImpl implements PlayListDAO{
             ps = connection.prepareStatement("INSERT INTO playList  (idRonda,idCancion,totalVotos,envotacion,fecha) VALUES(?,?,?,?,?)");
             //esto evita el sqlinjection
             ps.setInt(1, playList.getIdRonda());
-            ps.setInt(2, playList.getIdCancion());
+            ps.setInt(2, playList.getCancion().getIdCancion());
             ps.setInt(3, playList.getTotalVotos());
             ps.setBoolean(4, playList.isEnvotacion());
             ps.setDate(5, playList.getFecha());
@@ -250,6 +250,7 @@ public class PlayListDAOImpl implements PlayListDAO{
         PreparedStatement ps = null;
         ResultSet rs = null;
         List<PlayList> playList = new ArrayList<PlayList>();
+        CancionDAOImpl cancionDao = new CancionDAOImpl();
         try {
             connection = DataSource.getInstancia().getConnection();
             ps = connection.prepareStatement("SELECT * FROM playList WHERE envotacion=? ");
@@ -260,7 +261,7 @@ public class PlayListDAOImpl implements PlayListDAO{
 
                 PlayList pl = new PlayList();
                 pl.setIdRonda(rs.getInt("idRonda"));
-                pl.setIdCancion(rs.getInt("idCancion"));
+                pl.setCancion(cancionDao.getSong(rs.getInt("idCancion")));
                 pl.setTotalVotos(rs.getInt("totalVotos"));
                 pl.setEnvotacion(rs.getBoolean("envotacion"));
                 pl.setFecha(rs.getDate("fecha"));
