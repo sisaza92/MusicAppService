@@ -29,4 +29,10 @@ public interface CancionServiceInterfaz {
     @Produces("application/json")
     @Formatted
     public Response getAllSongs();
+    
+    @GET
+    @Path("/getCurrentPlaylist")
+    @Produces("application/json")
+    @Formatted
+    public Response getCurrentPlaylist();
 }

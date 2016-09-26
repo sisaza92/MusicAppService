@@ -7,14 +7,11 @@ package lab2.musicappservice.servicios;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.ws.rs.GET;
+import java.util.Random;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
-import lab2.musicappservice.InicializadorRest;
 import lab2.musicappservice.modelo.Cancion;
-import org.jboss.resteasy.annotations.providers.jackson.Formatted;
+import lab2.musicappservice.modelo.dto.CancionVotada;
 
 /**
  * Clase que implementa los metodos que retornaran las canciones y que son 
@@ -79,4 +76,41 @@ public class CancionServiceImpl implements CancionServiceInterfaz {
      
         return canciones;
     }
+    
+    @Override
+    public Response getCurrentPlaylist() {
+    
+        return Response.ok(getSinteticPlaylist()).build();
+        
+    }
+    /**
+     * Este metodo debe ser reemplazado por un llamado a la BD
+     * @return 
+     */
+    private List<CancionVotada> getSinteticPlaylist(){
+        
+        int votantes = 100;
+        Random rnd = new Random();
+        List<CancionVotada> playlist = new ArrayList<>();
+        
+        for (int i = 0; i < 10; i++) {
+            CancionVotada cancionVotada = new CancionVotada();
+            Cancion cancion = new Cancion();
+            
+            cancion.setAlbum("Albumit "+i);
+            cancion.setArtista("Artista "+i);
+            cancion.setTituloCancion("Nombre de la cancion"+i);
+            cancion.setIdCancion(i);
+            
+            cancionVotada.setCancion(cancion);
+            cancionVotada.setIdRonda(1);
+            cancionVotada.setTotalVotos((float)rnd.nextInt(100)/votantes*5);
+            
+            
+            playlist.add(cancionVotada);
+        }
+        
+        return playlist;
+    }
+    
 }
