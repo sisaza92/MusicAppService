@@ -21,6 +21,10 @@ public class PlayList {
     private boolean envotacion;
     private Date fecha;
 
+    public PlayList() {
+    }
+
+    
     public int getIdRonda() {
         return idRonda;
     }

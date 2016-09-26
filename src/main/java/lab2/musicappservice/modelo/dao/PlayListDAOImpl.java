@@ -13,6 +13,8 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import lab2.musicappservice.modelo.dto.Cancion;
 
 
@@ -21,6 +23,8 @@ import lab2.musicappservice.modelo.dto.Cancion;
  * @author Santiago
  */
 public class PlayListDAOImpl implements PlayListDAO{
+    
+    
 
     @Override
     public void guardarPlayList(PlayList playList) throws ExceptionDao {
@@ -237,6 +241,54 @@ public class PlayListDAOImpl implements PlayListDAO{
             }
         }
         
+    }
+
+    @Override
+    public List<PlayList> getAllPlayList() throws ExceptionDao {
+        
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        List<PlayList> playList = new ArrayList<PlayList>();
+        try {
+            connection = DataSource.getInstancia().getConnection();
+            ps = connection.prepareStatement("SELECT * FROM playList WHERE envotacion=? ");
+            ps.setBoolean(1, true);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+
+                PlayList pl = new PlayList();
+                pl.setIdRonda(rs.getInt("idRonda"));
+                pl.setIdCancion(rs.getInt("idCancion"));
+                pl.setTotalVotos(rs.getInt("totalVotos"));
+                pl.setEnvotacion(rs.getBoolean("envotacion"));
+                pl.setFecha(rs.getDate("fecha"));
+                
+                playList.add(pl);
+            }
+
+        } catch (SQLException e) {
+            // TODO: handle exception
+            throw new ExceptionDao(e);
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (ps != null) {
+                    ps.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                // TODO: handle exception
+                throw new ExceptionDao();
+            }
+        }
+
+        return playList;
     }
     
 }

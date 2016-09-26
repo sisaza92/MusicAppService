@@ -6,6 +6,7 @@
 package lab2.musicappservice.modelo.dao;
 
 import java.sql.Date;
+import java.util.List;
 import lab2.musicappservice.modelo.dto.Cancion;
 import lab2.musicappservice.modelo.exception.ExceptionDao;
 import lab2.musicappservice.modelo.dto.PlayList;
@@ -17,6 +18,7 @@ import lab2.musicappservice.modelo.dto.Voto;
  */
 public interface PlayListDAO {
     
+    public List<PlayList> getAllPlayList() throws ExceptionDao;
     
     void guardarPlayList(PlayList playList) throws ExceptionDao;
     /**
