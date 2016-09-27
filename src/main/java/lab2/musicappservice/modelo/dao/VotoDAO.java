@@ -5,6 +5,7 @@
  */
 package lab2.musicappservice.modelo.dao;
 
+import java.sql.Date;
 import lab2.musicappservice.modelo.dto.Voto;
 import lab2.musicappservice.modelo.exception.ExceptionDao;
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.List;
  *
  * @author Santiago
  */
-public interface VotoDao {
+public interface VotoDAO {
     
     /**
      * se encarga de almacenar el voto en la base de datos y (pendiente)modificar
@@ -35,6 +36,12 @@ public interface VotoDao {
     * @throws ExceptionDao 
     */
     void eliminarVoto(Voto voto) throws ExceptionDao;
+    
+    int getNumeroVotantes(Date fecha) throws ExceptionDao;
+    
+    
+    
+    //SELECT DISTINCT idUsuario FROM voto WHERE idCancion=1;
     
     
 }

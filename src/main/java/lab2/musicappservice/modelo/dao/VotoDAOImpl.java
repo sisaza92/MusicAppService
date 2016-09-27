@@ -8,9 +8,11 @@ package lab2.musicappservice.modelo.dao;
 import lab2.musicappservice.modelo.dto.Voto;
 import lab2.musicappservice.modelo.exception.ExceptionDao;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,12 +20,13 @@ import java.util.List;
  *
  * @author Santiago
  */
-public class VotoDAOImpl implements VotoDao {
+public class VotoDAOImpl implements VotoDAO {
 
     @Override
     public void guardarVoto(Voto voto) throws ExceptionDao {
         Connection connection = null;
         PreparedStatement ps = null;
+        
 
         try {
             connection = DataSource.getInstancia().getConnection();
@@ -35,6 +38,7 @@ public class VotoDAOImpl implements VotoDao {
             ps.setDate(3, voto.getFecha());
             ps.setInt(4, voto.getIdRonda());
             ps.execute();
+            
             
             // volver a enviarle otra sentencia sql y ejecutarla
 
@@ -137,6 +141,51 @@ public class VotoDAOImpl implements VotoDao {
                 throw new ExceptionDao();
             }
         }
+    }
+
+    @Override
+    public int getNumeroVotantes(Date fecha) throws ExceptionDao {
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        
+        Date fe = Date.valueOf(LocalDate.now());
+        
+        int nroVotantes;
+
+        try {
+            connection = DataSource.getInstancia().getConnection();
+            //meter en ps param codigo puede provocar sql injection
+            ps = connection.prepareStatement("SELECT count(idCancion) as nrovotos  FROM voto WHERE fecha = ?");
+            //esto evita el sqlinjection
+            
+            ps.setDate(1,fecha);
+            
+            rs = ps.executeQuery();
+            
+            rs.next();
+            
+            nroVotantes = rs.getInt("nrovotos");
+            
+            // volver a enviarle otra sentencia sql y ejecutarla
+
+        } catch (SQLException e) {
+            // TODO: handle exception
+            throw new ExceptionDao(e);
+        } finally {
+            try {
+                if (ps != null) {
+                    ps.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                // TODO: handle exception
+                throw new ExceptionDao();
+            }
+        }
+        return nroVotantes;
     }
     
 }

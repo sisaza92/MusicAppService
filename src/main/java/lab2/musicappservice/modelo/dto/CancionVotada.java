@@ -13,14 +13,14 @@ import java.sql.Date;
  *
  * @author Santiago
  */
-public class PlayList {
+public class CancionVotada {
     private int idRonda;
     private Cancion cancion;
     private int totalVotos;
     private boolean envotacion;
     private Date fecha;
 
-    public PlayList() {
+    public CancionVotada() {
     }
 
     
@@ -72,4 +72,4 @@ public class PlayList {
     
     
     
-}
+    }

@@ -5,7 +5,7 @@
  */
 package lab2.musicappservice.modelo.dao;
 
-import lab2.musicappservice.modelo.dto.PlayList;
+import lab2.musicappservice.modelo.dto.CancionVotada;
 import lab2.musicappservice.modelo.dto.Voto;
 import lab2.musicappservice.modelo.exception.ExceptionDao;
 import java.sql.Connection;
@@ -22,12 +22,12 @@ import lab2.musicappservice.modelo.dto.Cancion;
  *
  * @author Santiago
  */
-public class PlayListDAOImpl implements PlayListDAO{
+public class CancionVotadaDAOImpl implements CancionVotadaDAO{
     
     
 
     @Override
-    public void guardarPlayList(PlayList playList) throws ExceptionDao {
+    public void guardarPlayList(CancionVotada playList) throws ExceptionDao {
         Connection connection = null;
         PreparedStatement ps = null;
 
@@ -244,12 +244,12 @@ public class PlayListDAOImpl implements PlayListDAO{
     }
 
     @Override
-    public List<PlayList> getAllPlayList() throws ExceptionDao {
+    public List<CancionVotada> getAllPlayList() throws ExceptionDao {
         
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        List<PlayList> playList = new ArrayList<PlayList>();
+        List<CancionVotada> playList = new ArrayList<CancionVotada>();
         CancionDAOImpl cancionDao = new CancionDAOImpl();
         try {
             connection = DataSource.getInstancia().getConnection();
@@ -259,7 +259,7 @@ public class PlayListDAOImpl implements PlayListDAO{
 
             while (rs.next()) {
 
-                PlayList pl = new PlayList();
+                CancionVotada pl = new CancionVotada();
                 pl.setIdRonda(rs.getInt("idRonda"));
                 pl.setCancion(cancionDao.getSong(rs.getInt("idCancion")));
                 pl.setTotalVotos(rs.getInt("totalVotos"));

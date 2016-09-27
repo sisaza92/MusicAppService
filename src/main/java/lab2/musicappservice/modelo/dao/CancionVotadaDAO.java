@@ -9,18 +9,18 @@ import java.sql.Date;
 import java.util.List;
 import lab2.musicappservice.modelo.dto.Cancion;
 import lab2.musicappservice.modelo.exception.ExceptionDao;
-import lab2.musicappservice.modelo.dto.PlayList;
+import lab2.musicappservice.modelo.dto.CancionVotada;
 import lab2.musicappservice.modelo.dto.Voto;
 
 /**
  *
  * @author Santiago
  */
-public interface PlayListDAO {
+public interface CancionVotadaDAO {
     
-    public List<PlayList> getAllPlayList() throws ExceptionDao;
+    public List<CancionVotada> getAllPlayList() throws ExceptionDao;
     
-    void guardarPlayList(PlayList playList) throws ExceptionDao;
+    void guardarPlayList(CancionVotada playList) throws ExceptionDao;
     /**
      * se encarga de guardar un voto en la base de datos y sumarlo a la puntuacion
      * que tiene en el playList
