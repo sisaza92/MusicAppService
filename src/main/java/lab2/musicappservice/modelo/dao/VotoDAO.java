@@ -18,11 +18,12 @@ public interface VotoDAO {
     
     /**
      * se encarga de almacenar el voto en la base de datos y (pendiente)modificar
-     * la votacion total en el playlist
+     * la votacion total en el playlist retorna true si almacena el voto y false 
+     * si ya existe y lo elimina
      * @param voto
      * @throws ExceptionDao 
      */
-    void guardarVoto(Voto voto) throws ExceptionDao;
+    boolean guardarVoto(Voto voto) throws ExceptionDao;
     
     /**
      * 
@@ -39,9 +40,8 @@ public interface VotoDAO {
     
     int getNumeroVotantes(Date fecha) throws ExceptionDao;
     
+    boolean existeVoto(Voto voto) throws ExceptionDao;
     
-    
-    //SELECT DISTINCT idUsuario FROM voto WHERE idCancion=1;
-    
+
     
 }

@@ -23,41 +23,20 @@ import java.util.List;
 public class VotoDAOImpl implements VotoDAO {
 
     @Override
-    public void guardarVoto(Voto voto) throws ExceptionDao {
-        Connection connection = null;
-        PreparedStatement ps = null;
-        
-
-        try {
-            connection = DataSource.getInstancia().getConnection();
-            //meter en ps param codigo puede provocar sql injection
-            ps = connection.prepareStatement("INSERT INTO voto  (idCancion,idUsuario,fecha,idRonda) VALUES(?,?,?,?)");
-            //esto evita el sqlinjection
-            ps.setInt(1, voto.getIdCancion());
-            ps.setString(2, voto.getIdUsuario());
-            ps.setDate(3, voto.getFecha());
-            ps.setInt(4, voto.getIdRonda());
-            ps.execute();
-            
-            
-            // volver a enviarle otra sentencia sql y ejecutarla
-
-        } catch (SQLException e) {
-            // TODO: handle exception
-            throw new ExceptionDao(e);
-        } finally {
-            try {
-                if (ps != null) {
-                    ps.close();
-                }
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                // TODO: handle exception
-                throw new ExceptionDao();
-            }
+    public boolean guardarVoto(Voto voto) throws ExceptionDao {
+        boolean resultado;
+        if(existeVoto(voto)){
+            CancionVotadaDAO cancionVotadaDao = new CancionVotadaDAOImpl();
+            addVoto(voto);
+            System.out.println("se guardo el voto con exito");
+            cancionVotadaDao.agregarVotoPlayLIst(voto);
+            resultado=true;
+        }else{
+            eliminarVoto(voto);
+            System.out.println("compa el voto se elimino");
+            resultado=false;
         }
+        return resultado;
 
     }
 
@@ -187,5 +166,86 @@ public class VotoDAOImpl implements VotoDAO {
         }
         return nroVotantes;
     }
+
+    @Override
+    public boolean existeVoto(Voto voto) throws ExceptionDao {
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        boolean resultado;
+        
+
+        try {
+            connection = DataSource.getInstancia().getConnection();
+            //meter en ps param codigo puede provocar sql injection
+            ps = connection.prepareStatement("SELECT * FROM voto  WHERE"
+                    + " idCancion = ? AND idUsuario=?  AND fecha=? AND idRonda=?");
+            //esto evita el sqlinjection
+            ps.setInt(1, voto.getIdCancion());
+            ps.setString(2, voto.getIdUsuario());
+            ps.setDate(3, voto.getFecha());
+            ps.setInt(4, voto.getIdRonda());
+            rs = ps.executeQuery();
+            resultado = rs.next();
+            
+
+        } catch (SQLException e) {
+            // TODO: handle exception
+            throw new ExceptionDao(e);
+        } finally {
+            try {
+                if (ps != null) {
+                    ps.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                // TODO: handle exception
+                throw new ExceptionDao();
+            }
+        }
+        return resultado;
+    }
+
+   private void addVoto(Voto voto) throws ExceptionDao{
+   
+   Connection connection = null;
+        PreparedStatement ps = null;
+        
+        try {
+            connection = DataSource.getInstancia().getConnection();
+            //meter en ps param codigo puede provocar sql injection
+            ps = connection.prepareStatement("INSERT INTO voto  (idCancion,idUsuario,fecha,idRonda) VALUES(?,?,?,?)");
+            //esto evita el sqlinjection
+            ps.setInt(1, voto.getIdCancion());
+            ps.setString(2, voto.getIdUsuario());
+            ps.setDate(3, voto.getFecha());
+            ps.setInt(4, voto.getIdRonda());
+            ps.execute();
+      
+
+        } catch (SQLException e) {
+            // TODO: handle exception
+            throw new ExceptionDao(e);
+        } finally {
+            try {
+                if (ps != null) {
+                    ps.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                // TODO: handle exception
+                throw new ExceptionDao();
+            }
+        }
+   
+   }
+    
+    
+    
+    
     
 }
